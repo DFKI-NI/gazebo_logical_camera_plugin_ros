@@ -1,1 +1,1 @@
-# lucrezio_logical_camera
+based on lucrezio_logical_camera plugin
