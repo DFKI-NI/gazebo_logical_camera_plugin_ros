@@ -29,8 +29,27 @@ void LogicalCameraPlugin::Load(sensors::SensorPtr _sensor, sdf::ElementPtr _sdf)
     ROS_INFO("_horizontalFOV:=%g",this->parentSensor->HorizontalFOV());
     ROS_INFO("_aspect_ratio:=%g",this->parentSensor->AspectRatio());
 
-    nh = new ros::NodeHandle("~");
-    image_pub = nh->advertise<gazebo_logical_camera_plugin_ros::LogicalImage>("logical_camera_image", 1, true);
+    if (!_sdf->HasElement("frameName"))
+      this->frameID = "rgb_logical_frame";
+    else
+      this->frameID = _sdf->GetElement("frameName")->Get<std::string>();
+
+    std::string camera_name;
+
+    if (!_sdf->HasElement("cameraName"))
+      camera_name = "gripper_astra";
+    else
+      camera_name = _sdf->GetElement("cameraName")->Get<std::string>();
+
+    std::string topic_name;
+
+    if (!_sdf->HasElement("imageTopicName"))
+      topic_name = "rgb/logical_image";
+    else
+      topic_name = _sdf->GetElement("imageTopicName")->Get<std::string>();
+
+    nh = new ros::NodeHandle();
+    image_pub = nh->advertise<gazebo_logical_camera_plugin_ros::LogicalImage>("/mobipick/" + camera_name + "/" + topic_name, 1, true);
 }
 
 void LogicalCameraPlugin::OnUpdate(){
@@ -44,7 +63,7 @@ void LogicalCameraPlugin::OnUpdate(){
       return;
 
     msg.header.stamp = ros::Time::now();
-    msg.header.frame_id = "logical_camera_link";
+    msg.header.frame_id = this->frameID;
 
     msg.pose.position.x = logical_image.pose().position().x();
     msg.pose.position.y = logical_image.pose().position().y();
@@ -59,7 +78,7 @@ void LogicalCameraPlugin::OnUpdate(){
     for(int i=0; i < number_of_models; i++){
         gazebo_logical_camera_plugin_ros::Model model_msg;
 
-        if (logical_image.model(i).name() == "test_apartment" || logical_image.model(i).name() == "ground_plane"
+        if (logical_image.model(i).name() == "smart_factory" || logical_image.model(i).name() == "ground_plane"
             || logical_image.model(i).name() == "")
           continue;
 

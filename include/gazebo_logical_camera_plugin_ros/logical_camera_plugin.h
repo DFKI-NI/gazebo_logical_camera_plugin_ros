@@ -28,7 +28,7 @@ protected:
     ros::Publisher image_pub;
 private:
     virtual void OnUpdate();
-
+    std::string frameID;
     sensors::LogicalCameraSensorPtr parentSensor;
     event::ConnectionPtr updateConnection;
 };
