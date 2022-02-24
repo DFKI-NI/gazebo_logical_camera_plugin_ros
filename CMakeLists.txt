@@ -14,6 +14,7 @@ find_package(catkin REQUIRED COMPONENTS
   message_generation 
   gazebo_ros
   gazebo_version_helpers
+  pose_selector
 )
 
 find_package(gazebo REQUIRED)
@@ -45,7 +46,7 @@ generate_messages(
 catkin_package(
   INCLUDE_DIRS include ${CMAKE_CURRENT_BINARY_DIR}/..
   LIBRARIES gazebo_logical_camera_plugin_ros
-  CATKIN_DEPENDS roscpp rospy sensor_msgs std_msgs message_runtime gazebo_ros
+  CATKIN_DEPENDS roscpp rospy sensor_msgs std_msgs message_runtime gazebo_ros pose_selector
   DEPENDS gazebo
 )
 

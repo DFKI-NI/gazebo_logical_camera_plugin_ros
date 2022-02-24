@@ -14,7 +14,8 @@
 #include <ros/ros.h>
 #include <std_msgs/String.h>
 
-#include <gazebo_logical_camera_plugin_ros/LogicalImage.h>
+//#include <gazebo_logical_camera_plugin_ros/LogicalImage.h>
+#include <pose_selector/ObjectList.h>
 
 namespace gazebo {
 class LogicalCameraPlugin : public SensorPlugin{
