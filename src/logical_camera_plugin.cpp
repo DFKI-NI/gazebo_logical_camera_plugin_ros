@@ -67,28 +67,26 @@ void LogicalCameraPlugin::OnUpdate(){
     msg.header.stamp = ros::Time::now();
     msg.header.frame_id = this->frameID;
 
-    msg.reference_pose.position.x = logical_image.pose().position().x();
-    msg.reference_pose.position.y = logical_image.pose().position().y();
-    msg.reference_pose.position.z = logical_image.pose().position().z();
-
-    msg.reference_pose.orientation.x = logical_image.pose().orientation().x();
-    msg.reference_pose.orientation.y = logical_image.pose().orientation().y();
-    msg.reference_pose.orientation.z = logical_image.pose().orientation().z();
-    msg.reference_pose.orientation.w = logical_image.pose().orientation().w();
-
     int number_of_models = logical_image.model_size();
     for(int i=0; i < number_of_models; i++){
 
         pose_selector::ObjectPose object_msg;
 
-        if (logical_image.model(i).name() == "smart_factory" || logical_image.model(i).name() == "ground_plane"
-            || logical_image.model(i).name() == "" || logical_image.model(i).name() == "worker")
-          continue;
-
         rendering::VisualPtr visual = scene->GetVisual(logical_image.model(i).name());
 
         if (!visual)
           continue;
+        
+        std::cmatch m;
+
+        //Extract object class id and instance id, assumes class_id format (i.e. box_1)
+        if(std::regex_search(logical_image.model(i).name().c_str(), m, std::regex("(.+)_([0-9]+)")))
+        {
+          object_msg.class_id = m[1];
+          object_msg.instance_id = std::stoi(m[2]);
+        }else{
+          continue;
+        }
 
         auto bounding_box = visual->BoundingBox();
 
@@ -120,8 +118,6 @@ void LogicalCameraPlugin::OnUpdate(){
         object_msg.max.x = bounding_box.Max().X();
         object_msg.max.y = bounding_box.Max().Y();
         object_msg.max.z = bounding_box.Max().Z();
-        
-        object_msg.label = logical_image.model(i).name();
 
         msg.objects.push_back(object_msg);
     }

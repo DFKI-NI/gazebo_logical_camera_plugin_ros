@@ -1,7 +1,5 @@
 #pragma once
 
-//Based on lucrezio_logical_camera plugin
-
 #include <string>
 #include <sstream>
 
@@ -14,8 +12,8 @@
 #include <ros/ros.h>
 #include <std_msgs/String.h>
 
-//#include <gazebo_logical_camera_plugin_ros/LogicalImage.h>
 #include <pose_selector/ObjectList.h>
+#include <regex>
 
 namespace gazebo {
 class LogicalCameraPlugin : public SensorPlugin{
