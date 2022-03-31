@@ -13,7 +13,7 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
   gazebo_ros
   gazebo_version_helpers
-  pose_selector
+  object_pose_msgs
 )
 
 find_package(gazebo REQUIRED)
@@ -30,7 +30,7 @@ find_package(gazebo REQUIRED)
 catkin_package(
   INCLUDE_DIRS include ${CMAKE_CURRENT_BINARY_DIR}/..
   LIBRARIES gazebo_logical_camera_plugin_ros
-  CATKIN_DEPENDS roscpp rospy sensor_msgs std_msgs gazebo_ros pose_selector
+  CATKIN_DEPENDS roscpp rospy sensor_msgs std_msgs gazebo_ros object_pose_msgs
   DEPENDS gazebo
 )
 

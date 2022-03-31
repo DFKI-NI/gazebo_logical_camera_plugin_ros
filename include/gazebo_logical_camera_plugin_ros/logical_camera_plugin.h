@@ -12,7 +12,7 @@
 #include <ros/ros.h>
 #include <std_msgs/String.h>
 
-#include <pose_selector/ObjectList.h>
+#include <object_pose_msgs/ObjectList.h>
 #include <regex>
 
 namespace gazebo {

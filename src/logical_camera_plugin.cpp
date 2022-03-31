@@ -50,14 +50,14 @@ void LogicalCameraPlugin::Load(sensors::SensorPtr _sensor, sdf::ElementPtr _sdf)
 
     nh = new ros::NodeHandle();
     
-    image_pub = nh->advertise<pose_selector::ObjectList>("/mobipick/" + camera_name + "/" + topic_name, 1, true);
+    image_pub = nh->advertise<object_pose_msgs::ObjectList>("/mobipick/" + camera_name + "/" + topic_name, 1, true);
 }
 
 void LogicalCameraPlugin::OnUpdate(){
   
     msgs::LogicalCameraImage logical_image;
    
-    pose_selector::ObjectList msg;
+    object_pose_msgs::ObjectList msg;
 
     logical_image = this->parentSensor->Image();
     gazebo::rendering::ScenePtr scene = gazebo::rendering::get_scene();
@@ -70,7 +70,7 @@ void LogicalCameraPlugin::OnUpdate(){
     int number_of_models = logical_image.model_size();
     for(int i=0; i < number_of_models; i++){
 
-        pose_selector::ObjectPose object_msg;
+        object_pose_msgs::ObjectPose object_msg;
 
         rendering::VisualPtr visual = scene->GetVisual(logical_image.model(i).name());
 
