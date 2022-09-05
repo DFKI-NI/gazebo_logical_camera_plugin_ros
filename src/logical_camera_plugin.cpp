@@ -48,16 +48,9 @@ void LogicalCameraPlugin::Load(sensors::SensorPtr _sensor, sdf::ElementPtr _sdf)
     else
       topic_name = _sdf->GetElement("imageTopicName")->Get<std::string>();
 
-    std::string robot_name;
-
-    if(!_sdf->HasElement("robotName"))
-      robot_name = "robot";
-    else
-      robot_name = _sdf->GetElement("robotName")->Get<std::string>();
-
     nh = new ros::NodeHandle();
     
-    image_pub = nh->advertise<object_pose_msgs::ObjectList>("/" + robot_name + "/" + camera_name + "/" + topic_name, 1, true);
+    image_pub = nh->advertise<object_pose_msgs::ObjectList>(camera_name + "/" + topic_name, 1, true);
 }
 
 void LogicalCameraPlugin::OnUpdate(){
