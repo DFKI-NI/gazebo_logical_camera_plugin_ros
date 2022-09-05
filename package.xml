@@ -21,6 +21,7 @@
   <build_depend>std_msgs</build_depend>
   <build_depend>sensor_msgs</build_depend>
   <build_depend>gazebo_ros</build_depend>
+  <build_depend>gazebo_version_helpers</build_depend>
   <build_depend>object_pose_msgs</build_depend>
 
   <run_depend>roscpp</run_depend>
@@ -28,6 +29,7 @@
   <run_depend>std_msgs</run_depend>
   <run_depend>sensor_msgs</run_depend>
   <run_depend>gazebo_ros</run_depend>
+  <run_depend>gazebo_version_helpers</run_depend>
   <run_depend>object_pose_msgs</run_depend>
 
   <!-- The export tag contains other, unspecified, tags -->
