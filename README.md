@@ -64,7 +64,6 @@ The following snippet can be used as an usage example:
           <cameraName>test_logical_camera</cameraName>
           <imageTopicName>test_logical_image</imageTopicName>
           <frameName>test_logical_camera_frame</frameName>
-          <robotName>mobipick</robotName>
         </plugin>
       </sensor>
     </gazebo>
