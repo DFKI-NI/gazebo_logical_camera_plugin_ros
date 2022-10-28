@@ -7,13 +7,11 @@ project(gazebo_logical_camera_plugin_ros)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
+  gazebo_ros
+  object_pose_msgs
   roscpp
-  rospy
   sensor_msgs
   std_msgs
-  gazebo_ros
-  gazebo_version_helpers
-  object_pose_msgs
 )
 
 find_package(gazebo REQUIRED)
@@ -28,33 +26,22 @@ find_package(gazebo REQUIRED)
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-  INCLUDE_DIRS include ${CMAKE_CURRENT_BINARY_DIR}/..
-  LIBRARIES gazebo_logical_camera_plugin_ros
-  CATKIN_DEPENDS roscpp rospy sensor_msgs std_msgs gazebo_ros object_pose_msgs
+  INCLUDE_DIRS include
+  LIBRARIES logical_camera_plugin
+  CATKIN_DEPENDS gazebo_ros object_pose_msgs roscpp sensor_msgs std_msgs
   DEPENDS gazebo
 )
 
 ###########
 ## Build ##
 ###########
-# check c++11 / c++0x
-include(CheckCXXCompilerFlag)
-CHECK_CXX_COMPILER_FLAG("-std=c++11" COMPILER_SUPPORTS_CXX11)
-CHECK_CXX_COMPILER_FLAG("-std=c++0x" COMPILER_SUPPORTS_CXX0X)
-if(COMPILER_SUPPORTS_CXX11)
-    set(CMAKE_CXX_FLAGS "-std=c++11")
-elseif(COMPILER_SUPPORTS_CXX0X)
-    set(CMAKE_CXX_FLAGS "-std=c++0x")
-else()
-    message(FATAL_ERROR "The compiler ${CMAKE_CXX_COMPILER} has no C++11 support. Please use a different C++ compiler. Suggested solution: update the pkg build-essential ")
-endif()
 
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
 include_directories(
   include
-  ${Boost_INCLUDE_DIR} 
-  ${catkin_INCLUDE_DIRS} 
+  ${Boost_INCLUDE_DIR}
+  ${catkin_INCLUDE_DIRS}
   ${GAZEBO_INCLUDE_DIRS}
   ${CMAKE_CURRENT_BINARY_DIR}
 )
@@ -67,8 +54,8 @@ add_library(logical_camera_plugin SHARED src/logical_camera_plugin.cpp)
 add_dependencies(logical_camera_plugin ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
-target_link_libraries(logical_camera_plugin 
-  ${catkin_LIBRARIES} 
+target_link_libraries(logical_camera_plugin
+  ${catkin_LIBRARIES}
   ${GAZEBO_LIBRARIES}
   ${Boost_LIBRARIES}
 )
@@ -118,10 +105,3 @@ install(DIRECTORY include/${PROJECT_NAME}/
    DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
    FILES_MATCHING PATTERN "*.h"
 )
-
-install(DIRECTORY launch
-  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
-  FILES_MATCHING PATTERN "*.launch"
-)
-
-
