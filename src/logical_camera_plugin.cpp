@@ -49,14 +49,14 @@ void LogicalCameraPlugin::Load(sensors::SensorPtr _sensor, sdf::ElementPtr _sdf)
       topic_name = _sdf->GetElement("imageTopicName")->Get<std::string>();
 
     nh = new ros::NodeHandle();
-    
+
     image_pub = nh->advertise<object_pose_msgs::ObjectList>(camera_name + "/" + topic_name, 1, true);
 }
 
 void LogicalCameraPlugin::OnUpdate(){
-  
+
     msgs::LogicalCameraImage logical_image;
-   
+
     object_pose_msgs::ObjectList msg;
 
     logical_image = this->parentSensor->Image();
@@ -76,7 +76,7 @@ void LogicalCameraPlugin::OnUpdate(){
 
         if (!visual)
           continue;
-        
+
         std::cmatch m;
 
         //Extract object class id and instance id, assumes class_id format (i.e. box_1)
@@ -106,15 +106,15 @@ void LogicalCameraPlugin::OnUpdate(){
         object_msg.min.x = bounding_box.Center().X() - bounding_box.Size().X()/2.0;
         object_msg.min.y = bounding_box.Center().Y() - bounding_box.Size().Y()/2.0;
         object_msg.min.z = bounding_box.Center().Z() - bounding_box.Size().Z()/2.0;
-        
+
         object_msg.max.x = bounding_box.Center().X() + bounding_box.Size().X()/2.0;
         object_msg.max.y = bounding_box.Center().Y() + bounding_box.Size().Y()/2.0;
         object_msg.max.z = bounding_box.Center().Z() + bounding_box.Size().Z()/2.0;
-	
+
         object_msg.min.x = bounding_box.Min().X();
         object_msg.min.y = bounding_box.Min().Y();
         object_msg.min.z = bounding_box.Min().Z();
-        
+
         object_msg.max.x = bounding_box.Max().X();
         object_msg.max.y = bounding_box.Max().Y();
         object_msg.max.z = bounding_box.Max().Z();
