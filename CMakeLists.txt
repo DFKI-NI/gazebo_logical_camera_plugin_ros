@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8.3)
+cmake_minimum_required(VERSION 3.5.1)
 project(gazebo_logical_camera_plugin_ros)
 
 #export GAZEBO_PLUGIN_PATH=~/Desktop/incorap_ws/build/lucrezio_logical_camera:$GAZEBO_PLUGIN_PATH
