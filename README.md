@@ -50,7 +50,7 @@ The following snippet can be used as an usage example:
     <link name="test_logical_camera_frame"/>
 
     <gazebo reference="test_logical_camera_frame">
-      <sensor name="logical_camera" type="logical_camera"> 
+      <sensor name="logical_camera" type="logical_camera">
         <logical_camera>
           <near>0.05</near>  <!-- near clippling plane, in meters -->
           <far>3.50</far>    <!-- far clipping plane, in meters -->
@@ -58,7 +58,7 @@ The following snippet can be used as an usage example:
           <aspect_ratio>${640.0/480.0}</aspect_ratio> <!-- camera aspect ratio -->
         </logical_camera>
         <visualize>false</visualize> <!-- visualize camera frustum in Gazebo (can cause issues) -->
-        <always_on>true</always_on> 
+        <always_on>true</always_on>
         <update_rate>10</update_rate> <!-- update rate of logical camera -->
         <plugin name="logical_camera_plugin" filename="liblogical_camera_plugin.so">
           <cameraName>test_logical_camera</cameraName>
