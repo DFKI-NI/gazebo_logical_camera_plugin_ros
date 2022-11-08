@@ -133,14 +133,6 @@ void LogicalCameraPlugin::OnUpdate(){
         object_msg.size.y = bounding_box.YLength();
         object_msg.size.z = bounding_box.ZLength();
 
-        object_msg.min.x = bounding_box.Center().X() - bounding_box.Size().X()/2.0;
-        object_msg.min.y = bounding_box.Center().Y() - bounding_box.Size().Y()/2.0;
-        object_msg.min.z = bounding_box.Center().Z() - bounding_box.Size().Z()/2.0;
-
-        object_msg.max.x = bounding_box.Center().X() + bounding_box.Size().X()/2.0;
-        object_msg.max.y = bounding_box.Center().Y() + bounding_box.Size().Y()/2.0;
-        object_msg.max.z = bounding_box.Center().Z() + bounding_box.Size().Z()/2.0;
-
         object_msg.min.x = bounding_box.Min().X();
         object_msg.min.y = bounding_box.Min().Y();
         object_msg.min.z = bounding_box.Min().Z();
