@@ -2,7 +2,7 @@
 <package>
   <name>gazebo_logical_camera_plugin_ros</name>
   <version>0.0.0</version>
-  <description>The gazebo_logical_camera_plugin_ros package</description>
+  <description>This gazebo plugin can be used to simulate object detection in simulation. When the plugin is attached to a logical camera sensor, objects that appear within the camera's frustum will have their pose and bounding box information published as ObjectList ROS messages.</description>
 
   <maintainer email="amos.smith@dfki.de">Amos Smith</maintainer>
 
