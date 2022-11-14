@@ -1,6 +1,6 @@
 # gazebo_logical_camera_plugin_ros
 
-This gazebo plugin can be used to simulate object detection in simulation. When the plugin is attached to a logical camera sensor, objects that appear within the camera's frustum will have their pose and bounding box information published as ObjectList ROS messages.
+This gazebo plugin can be used to simulate object detection in simulation. When the plugin is attached to a logical camera sensor, objects that appear within the camera's frustum will have their pose and bounding box information published as ObjectList ROS messages. This plugin is based on previous work available [here](https://github.com/schizzz8/lucrezio_logical_camera).
 
 <br>
 
