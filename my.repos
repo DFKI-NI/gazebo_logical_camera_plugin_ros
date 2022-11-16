@@ -1,5 +1,5 @@
 repositories:
    object_pose_msgs:
       type: git
-      url: git@git.ni.dfki.de:environment_representation/object_pose_msgs
+      url: https://github.com/DFKI-NI/object_pose_msgs.git
       version: main

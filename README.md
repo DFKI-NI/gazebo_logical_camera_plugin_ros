@@ -17,7 +17,7 @@ These installation instructions assume that Gazebo and ROS have already been ins
 1. Clone this repo
 
         cd YOUR_CATKIN_WS/src
-        git clone git@git.ni.dfki.de:environment_representation/gazebo_logical_camera_plugin_ros.git
+        git clone https://github.com/DFKI-NI/gazebo_logical_camera_plugin_ros.git
 
 2. Import dependency repos
 
@@ -34,7 +34,7 @@ These installation instructions assume that Gazebo and ROS have already been ins
 
 ## Messages
 
-The pose_selector uses the ObjectPose and ObjectList messages from [object_pose_msgs](https://git.ni.dfki.de/environment_representation/object_pose_msgs) package.
+The pose_selector uses the ObjectPose and ObjectList messages from [object_pose_msgs](https://github.com/DFKI-NI/object_pose_msgs.git) package.
 
 <br>
 
