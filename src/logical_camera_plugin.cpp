@@ -68,7 +68,7 @@ void LogicalCameraPlugin::Load(sensors::SensorPtr _sensor, sdf::ElementPtr _sdf)
     std::string camera_name;
 
     if (!_sdf->HasElement("cameraName"))
-      camera_name = "gripper_astra";
+      camera_name = "eef_main_cam";
     else
       camera_name = _sdf->GetElement("cameraName")->Get<std::string>();
 
