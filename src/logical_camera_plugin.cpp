@@ -50,6 +50,9 @@ void LogicalCameraPlugin::Load(sensors::SensorPtr _sensor, sdf::ElementPtr _sdf)
 
     // Connect to the sensor update event.
     this->updateConnection = this->parentSensor->ConnectUpdated(std::bind(&LogicalCameraPlugin::OnUpdate, this));
+    // The logical camera sensor updates in the non-rendering sensor thread; the bounding boxes are computed from the
+    // rendering scene, so that part runs after the prerender phase in the rendering thread.
+    this->postRenderConnection = event::Events::ConnectPostRender(std::bind(&LogicalCameraPlugin::OnPostRender, this));
 
     // Make sure the parent sensor is active.
     this->parentSensor->SetActive(true);
@@ -85,12 +88,24 @@ void LogicalCameraPlugin::Load(sensors::SensorPtr _sensor, sdf::ElementPtr _sdf)
 }
 
 void LogicalCameraPlugin::OnUpdate(){
+    std::lock_guard<std::mutex> lock(this->imageMutex);
+    this->latestImage = this->parentSensor->Image();
+    this->newImage = true;
+}
+
+void LogicalCameraPlugin::OnPostRender(){
 
     msgs::LogicalCameraImage logical_image;
+    {
+      std::lock_guard<std::mutex> lock(this->imageMutex);
+      if (!this->newImage)
+        return;
+      logical_image = this->latestImage;
+      this->newImage = false;
+    }
 
     object_pose_msgs::ObjectList msg;
 
-    logical_image = this->parentSensor->Image();
     gazebo::rendering::ScenePtr scene = gazebo::rendering::get_scene();
     if (!scene || !scene->Initialized())
       return;
@@ -110,8 +125,15 @@ void LogicalCameraPlugin::OnUpdate(){
 
         std::cmatch m;
 
+        // A scene copy for another robot prefixes its model names with "<robot>__" (e.g. mobipick2__klt_1, #226):
+        // the object is the same class and instance as in the original scene, so drop the prefix.
+        std::string model_name = logical_image.model(i).name();
+        const size_t copy_sep = model_name.rfind("__");
+        if (copy_sep != std::string::npos)
+          model_name = model_name.substr(copy_sep + 2);
+
         //Extract object class id and instance id, assumes class_id format (i.e. box_1)
-        if(std::regex_search(logical_image.model(i).name().c_str(), m, std::regex("(.+)_([0-9]+)")))
+        if(std::regex_search(model_name.c_str(), m, std::regex("(.+)_([0-9]+)")))
         {
           object_msg.class_id = m[1];
           object_msg.instance_id = std::stoi(m[2]);

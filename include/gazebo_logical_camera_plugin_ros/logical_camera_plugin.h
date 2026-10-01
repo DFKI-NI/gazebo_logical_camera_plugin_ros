@@ -31,6 +31,7 @@
 
 #pragma once
 
+#include <mutex>
 #include <string>
 #include <sstream>
 
@@ -58,8 +59,15 @@ protected:
     ros::Publisher image_pub;
 private:
     virtual void OnUpdate();
+    // Runs in the rendering thread: rendering::Visual::BoundingBox() updates Ogre scene nodes and must not run
+    // concurrently with the camera sensors rendering the scene (gzserver aborted in Ogre's AxisAlignedBox asserts).
+    void OnPostRender();
     std::string frameID;
     sensors::LogicalCameraSensorPtr parentSensor;
     event::ConnectionPtr updateConnection;
+    event::ConnectionPtr postRenderConnection;
+    std::mutex imageMutex;
+    msgs::LogicalCameraImage latestImage;
+    bool newImage = false;
 };
 }
